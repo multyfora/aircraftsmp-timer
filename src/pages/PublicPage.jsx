@@ -17,7 +17,7 @@ export default function PublicPage() {
         />
       </header>
 
-      <main className="relative flex-1 flex flex-col items-center justify-center px-4 -mt-12">
+      <main className="relative flex-1 flex flex-col items-center justify-center px-4 -mt-12 w-full max-w-full overflow-hidden">
         {loading ? (
           <div className="flex flex-col items-center gap-4">
             <div className="w-8 h-8 border-2 border-primary/30 border-t-primary rounded-full animate-spin" />

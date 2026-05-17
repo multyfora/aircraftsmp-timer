@@ -38,8 +38,8 @@ export default function CountdownDisplay({ remaining, label }) {
   )
 
   return (
-    <div className="flex flex-col items-center justify-center gap-6 animate-fade-in max-w-full px-4 sm:px-8 lg:px-16 mx-auto">
-      <div className="flex items-baseline gap-1 sm:gap-2 lg:gap-4 select-none max-w-full overflow-x-auto">
+    <div className="flex flex-col items-center justify-center gap-6 animate-fade-in w-full max-w-full px-4 sm:px-8 lg:px-16 mx-auto">
+      <div className="flex items-baseline gap-1 sm:gap-2 lg:gap-4 select-none max-w-full">
         {days > 0 && (
           <>
             {segment(String(days), 'Days')}
