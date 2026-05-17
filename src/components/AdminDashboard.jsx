@@ -42,24 +42,33 @@ export default function AdminDashboard({ timer, remaining, user, onLogout }) {
   }
 
   return (
-    <div className="min-h-screen bg-[#0a0a0f] flex flex-col">
-      <header className="flex items-center justify-between px-6 py-4 border-b border-gray-800">
-        <h1 className="text-lg font-semibold text-white">Timer Admin</h1>
+    <div className="min-h-screen bg-[#070b14] flex flex-col">
+      <div className="absolute inset-0 bg-grid pointer-events-none" />
+      <div className="absolute inset-0 bg-glow pointer-events-none" />
+
+      <header className="relative flex items-center justify-between px-6 py-4 border-b border-border bg-surface/40 backdrop-blur-md">
+        <div className="flex items-center gap-3">
+          <img src="/aircraftsmp-timer/logo.png" alt="logo" className="h-8 w-auto" />
+          <span className="text-sm font-medium text-gray-300">Admin</span>
+        </div>
         <div className="flex items-center gap-4">
-          <span className="text-sm text-gray-400">{user.email}</span>
+          <span className="text-sm text-gray-500 hidden sm:block">{user.email}</span>
           <button
             onClick={onLogout}
-            className="text-sm text-gray-400 hover:text-white transition cursor-pointer"
+            className="text-sm text-gray-500 hover:text-primary transition cursor-pointer"
           >
             Logout
           </button>
         </div>
       </header>
 
-      <main className="flex-1 flex flex-col items-center gap-10 px-4 py-10">
-        <div className="w-full max-w-2xl">
-          <h2 className="text-sm uppercase tracking-widest text-gray-500 mb-2">Live Preview</h2>
-          <div className="bg-gray-900/50 rounded-2xl border border-gray-800 p-8 flex items-center justify-center min-h-[200px]">
+      <main className="relative flex-1 flex flex-col items-center gap-10 px-4 py-10 max-w-4xl mx-auto w-full">
+        <div className="w-full">
+          <div className="flex items-center gap-2 mb-4">
+            <div className="w-1.5 h-1.5 rounded-full bg-primary" />
+            <h2 className="text-xs uppercase tracking-widest text-gray-500 font-medium">Live Preview</h2>
+          </div>
+          <div className="bg-surface/50 backdrop-blur-sm rounded-2xl border border-border p-8 flex items-center justify-center min-h-[220px] animate-pulse-glow">
             {timer ? (
               <CountdownDisplay remaining={remaining} label={timer.label} />
             ) : (
@@ -68,41 +77,44 @@ export default function AdminDashboard({ timer, remaining, user, onLogout }) {
           </div>
         </div>
 
-        <div className="w-full max-w-md space-y-6 bg-gray-900/50 rounded-2xl border border-gray-800 p-6">
+        <div className="w-full max-w-md space-y-6 bg-surface/60 backdrop-blur-xl rounded-2xl border border-border p-6">
+          <h3 className="text-sm font-medium text-gray-300">Timer Controls</h3>
+
           <div>
-            <label className="block text-sm text-gray-400 mb-1">Countdown Target</label>
+            <label className="block text-sm text-gray-400 mb-1.5">Countdown Target</label>
             <input
               type="datetime-local"
               value={endDate}
               onChange={(e) => setEndDate(e.target.value)}
-              className="w-full px-4 py-2.5 bg-gray-950 border border-gray-800 rounded-lg text-white focus:outline-none focus:border-amber-500/50 transition"
+              className="w-full px-4 py-2.5 bg-surface-lighter border border-border rounded-xl text-white focus:outline-none focus:border-primary/50 focus:ring-1 focus:ring-primary/20 transition"
             />
           </div>
 
           <div>
-            <label className="block text-sm text-gray-400 mb-1">Label (optional)</label>
+            <label className="block text-sm text-gray-400 mb-1.5">Label (optional)</label>
             <input
               type="text"
               value={label}
               onChange={(e) => setLabel(e.target.value)}
               placeholder="e.g. Until Launch"
-              className="w-full px-4 py-2.5 bg-gray-950 border border-gray-800 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-amber-500/50 transition"
+              className="w-full px-4 py-2.5 bg-surface-lighter border border-border rounded-xl text-white placeholder-gray-500 focus:outline-none focus:border-primary/50 focus:ring-1 focus:ring-primary/20 transition"
             />
           </div>
 
           <button
             onClick={handleSetTimer}
             disabled={saving || !endDate}
-            className="w-full py-2.5 bg-amber-500 hover:bg-amber-400 disabled:bg-amber-500/50 text-black font-medium rounded-lg transition cursor-pointer disabled:cursor-not-allowed"
+            className="w-full py-2.5 bg-primary hover:bg-primary-dark disabled:bg-primary/50 text-white font-medium rounded-xl transition cursor-pointer disabled:cursor-not-allowed"
           >
             {saving ? 'Saving...' : 'Set Countdown'}
           </button>
 
           {timer && (
-            <div className="flex items-center justify-between pt-2 border-t border-gray-800">
+            <div className="flex items-center justify-between pt-4 border-t border-border">
               <span className="text-sm text-gray-400">
-                Status: {timer.isActive ? (
-                  <span className="text-green-400 font-medium">Active</span>
+                Status:{' '}
+                {timer.isActive ? (
+                  <span className="text-primary font-medium">Active</span>
                 ) : (
                   <span className="text-red-400 font-medium">Paused</span>
                 )}
@@ -110,16 +122,26 @@ export default function AdminDashboard({ timer, remaining, user, onLogout }) {
               <button
                 onClick={toggleActive}
                 disabled={saving}
-                className={`px-4 py-1.5 text-sm font-medium rounded-lg transition cursor-pointer disabled:cursor-not-allowed ${
+                className={`px-4 py-1.5 text-sm font-medium rounded-xl transition cursor-pointer disabled:cursor-not-allowed ${
                   timer.isActive
-                    ? 'bg-red-500/20 text-red-400 hover:bg-red-500/30'
-                    : 'bg-green-500/20 text-green-400 hover:bg-green-500/30'
+                    ? 'bg-red-500/10 text-red-400 border border-red-500/20 hover:bg-red-500/20'
+                    : 'bg-primary/10 text-primary border border-primary/20 hover:bg-primary/20'
                 }`}
               >
                 {timer.isActive ? 'Pause' : 'Resume'}
               </button>
             </div>
           )}
+        </div>
+
+        <div className="w-full max-w-md">
+          <a
+            href="#/"
+            className="inline-flex items-center gap-1.5 text-sm text-gray-600 hover:text-primary transition"
+          >
+            <span>&larr;</span>
+            <span>View public countdown</span>
+          </a>
         </div>
       </main>
     </div>
